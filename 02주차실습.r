@@ -49,7 +49,9 @@ tail(DMB)
 
 #다변량
 health = read.csv("건강검진정보.csv")
-health$성별코드 = factor(health$성별코드, levels = c("1","2"),labels = c("남자","여자"))
+health$성별코드 = factor(health$성별코드, levels = c(1,2),labels = c("남자","여자"))
+
+#전처리
 attach(health)
 library(psych)
 summary(총콜레스테롤)
@@ -57,6 +59,10 @@ describe(총콜레스테롤)
 boxplot(총콜레스테롤)
 health = health[!(총콜레스테롤 > 300),]
 detach(health)
+health$eye = (health$시력.우.+health$시력.좌.)/2
+health$blood = (health$수축기혈압+health$이완기혈압)/2
+
+#인강 실습 
 attach(health)
 boxplot(총콜레스테롤)
 describe(총콜레스테롤)
@@ -64,4 +70,20 @@ tapply(총콜레스테롤,성별코드,summary)
 library(psych)
 describeBy(health[c("총콜레스테롤")],성별코드, mat=T)
 detach(health)
+
+#추가
+close.screen(all=T)
+split.screen(c(2,3))
+screen(1)
+plot(health$성별코드, main = "성별")
+screen(2)
+hist(health$신장.5Cm단위., main = "신장")
+screen(3)
+hist(health$체중.5Kg단위., main = "체중")
+screen(4)
+hist(health$eye, main = "시력")
+screen(5)
+hist(health$blood, main = "혈압")
+screen(6)
+hist(health$총콜레스테롤, main = "콜레스테롤")
 
