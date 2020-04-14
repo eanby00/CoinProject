@@ -34,6 +34,7 @@ harmonic.mean(c(7,5)) #5.833333
 harmonic.mean(c(900,200)) #327.2727
 
 #분포
+library(psych)
 DMB = read.csv("DMB재난경보방송발령현황(2020년).csv")
 library(dplyr)
 DMB = DMB %>% group_by(지역) %>% summarise(n = n())
