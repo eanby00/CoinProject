@@ -1,3 +1,5 @@
+#2주차 실습 
+
 #산술평균
 x = read.csv("average.csv")
 str(x$x)
