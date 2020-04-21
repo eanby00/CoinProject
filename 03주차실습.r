@@ -71,5 +71,6 @@ new_dummy = seconddata %>% group_by(clarity) %>% summarise(pricemean = mean(pric
 barplot(new_dummy$pricemean~new_dummy$clarity, main = "투명도 등급별 가격평균", ylim = c(0,10000),col = "darkblue")
 
 library(ggplot2)
-ggplot(seconddata, aes(x = seconddata$certification))+geom_bar() +ggtitle("인증기관별 다이아몬드수")
-ggplot(seconddata, aes(x = seconddata$certification,y = seconddata$carat))+geom_boxplot() +ggtitle("인증기관별 다이아몬드 무게도표")
+ggplot(seconddata, aes(x = certification))+geom_bar() +ggtitle("인증기관별 다이아몬드수")
+ggplot(seconddata, aes(x = certification,y = carat))+geom_boxplot() +ggtitle("인증기관별 다이아몬드 무게도표")
+
