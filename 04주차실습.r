@@ -50,6 +50,16 @@ abline(v = mean+1.96*sd, col = "blue", lty = 1)
 abline(v = mean-1.96*sd, col = "blue", lty = 1)
 
 layout(1)
+plot(x,dnorm(x,mean,sd))
+abline(v = mean,col = "red",lty = 1)
+abline(v = mean+1.96*sd, col = "blue", lty = 1)
+abline(v = mean-1.96*sd, col = "blue", lty = 1)
+
+plot(x,dnorm(x,500,300))
+abline(v = 500,col = "red",lty = 1)
+abline(v = 500+1.96*300, col = "blue", lty = 1)
+abline(v = 500-1.96*300, col = "blue", lty = 1)
+
 y = rnorm(100000, 500, 500)
 plot(y,dnorm(y,500,500))
 mean_y = mean(y)
