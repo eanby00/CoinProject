@@ -32,7 +32,8 @@ plot(dpois(0:10,2.5),
      main = "포아송분포")
 
 #6 평균 발생 건수 7분에 2.2회, 1분 P(X<=1/2) 이내로 받을 확률을 구하시오
-pexp(1/7, 2.2, lower.tail = T)
+pexp(1/2, 2.2, lower.tail = T) #?
+pexp(1/7, 2.2, lower.tail = T) #?
 
 #7 정규분포 그리기
 layout(matrix(c(1,2)))
