@@ -12,7 +12,7 @@ plot(0:10, dbinom(0:10, 10,0.6),
      main = "coin 이항분포")
 
 #3 2번 그래프에서 P(X >= 3)의 확률을 구하시오.
-pbinom(2, 10, 0.4, lower.tail = F)
+pbinom(2, 10, 0.6, lower.tail = F)
 
 
 #4 2번과 똑같은 조건으로 누적 이항분포표를 그리시오.
