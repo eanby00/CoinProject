@@ -108,6 +108,3 @@ summary(mpg_cyl) # 4,6,8 중 한 쌍 이상은 차이가 난다.
 TukeyHSD(mpg_cyl) # 세 집단 모두 차이가 난다. 
 plot(TukeyHSD(mpg_cyl), col = "blue")
 
-TukeyHSD(cars_result)
-plot(TukeyHSD(cars_result)) # 수동과 자동간의 차이가 있다.
-# 8과 6의 결과는 차이가 없지만 나머지 쌍에서는 차이가 있다. 
