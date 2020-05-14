@@ -60,6 +60,7 @@ data_make_sec = data.frame(id = data_sec$id,
                            result = c(data_sec$pre,data_sec$after3M,data_sec$after6M))
 describeBy(data_make_sec$result,data_make_sec$time, mat =T) 
 str(data_make_sec)
+
 library(car)
 sec.matrix <- cbind(data_make_sec$result[data_make_sec$time == "pre"], 
                     data_make_sec$result[data_make_sec$time == "after3M"], 
@@ -117,3 +118,4 @@ summary(mpg_cyl) # 4,6,8 중 한 쌍 이상은 차이가 난다.
 TukeyHSD(mpg_cyl) # 세 집단 모두 차이가 난다. 
 plot(TukeyHSD(mpg_cyl), col = "blue")
 
+# plot(TukeyHSD(cars_result))
