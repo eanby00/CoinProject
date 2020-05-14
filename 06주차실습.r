@@ -54,11 +54,12 @@ plot(TukeyHSD(year_score), col ="red")
 data_sec = read.csv("반복측정분산분석.csv")
 str(data_sec)
 
+library(psych)
 data_make_sec = data.frame(id = data_sec$id,
                            time = c(rep("pre",6),rep("after3M",6),rep("after6M",6)),
                            result = c(data_sec$pre,data_sec$after3M,data_sec$after6M))
 describeBy(data_make_sec$result,data_make_sec$time, mat =T) 
-
+str(data_make_sec)
 library(car)
 sec.matrix <- cbind(data_make_sec$result[data_make_sec$time == "pre"], 
                     data_make_sec$result[data_make_sec$time == "after3M"], 
@@ -66,23 +67,28 @@ sec.matrix <- cbind(data_make_sec$result[data_make_sec$time == "pre"],
 head(sec.matrix)
 
 sec.model.lm = lm(sec.matrix ~ 1)
-time = factor(c("pre", "after3M", "after6M")) 
+time.f = factor(c("pre", "after3M", "after6M")) 
 options(contrasts=c("contr.sum", "contr.poly"))
 sec.result.mt <- Anova(sec.model.lm,
-                       idata=data.frame(time),
-                       idesign=~time, 
+                       idata=data.frame(time.f),
+                       idesign=~time.f, 
                        type="III")
 
 summary(sec.result.mt, multivariate=F)
 # 구형성 검정: p-value: 0.18795 => 일변량의 p-value 확인
-sec.result = aov(result ~ time, 
+sec.result = aov(result ~ time+Error(id/time), 
                   data=data_make_sec)
 summary(sec.result)
-# p값 = 0.254 => 귀무가설 채택, 시점별 차이는 없다. 
+# p값 = 0.882 => 귀무가설 채택, 시점별 차이는 없다. 
 
 TukeyHSD(aov(result~time, data = data_make_sec))
 plot(TukeyHSD(aov(result~time, data = data_make_sec)),col = "red")
 
+library(multcomp)
+result.lm <- lm(result ~ time, data=data_make_sec)
+tukey.result <- glht(result.lm, linfct=mcp(time='Tukey'))
+summary(tukey.result)
+plot(tukey.result)
 # -----------------------------------------------------------------------------------------------------------------
 
 #이원분산분석
