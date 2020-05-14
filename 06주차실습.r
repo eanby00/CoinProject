@@ -89,6 +89,7 @@ result.lm <- lm(result ~ time, data=data_make_sec)
 tukey.result <- glht(result.lm, linfct=mcp(time='Tukey'))
 summary(tukey.result)
 plot(tukey.result)
+
 # -----------------------------------------------------------------------------------------------------------------
 
 #이원분산분석
