@@ -76,19 +76,21 @@ sec.result.mt <- Anova(sec.model.lm,
 
 summary(sec.result.mt, multivariate=F)
 # 구형성 검정: p-value: 0.18795 => 일변량의 p-value 확인
+# 구형성을 만족하지 못할 경우 다변량을 이용하기 
 sec.result = aov(result ~ time+Error(id/time), 
                   data=data_make_sec)
 summary(sec.result)
 # p값 = 0.882 => 귀무가설 채택, 시점별 차이는 없다. 
-
-TukeyHSD(aov(result~time, data = data_make_sec))
-plot(TukeyHSD(aov(result~time, data = data_make_sec)),col = "red")
 
 library(multcomp)
 result.lm <- lm(result ~ time, data=data_make_sec)
 tukey.result <- glht(result.lm, linfct=mcp(time='Tukey'))
 summary(tukey.result)
 plot(tukey.result)
+
+TukeyHSD(aov(result~time, data = data_make_sec))
+plot(TukeyHSD(aov(result~time, data = data_make_sec)),col = "red")
+
 
 # -----------------------------------------------------------------------------------------------------------------
 
