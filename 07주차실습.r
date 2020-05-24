@@ -1,6 +1,7 @@
 # 상관분석
 
 data_fir = read.csv("건강검진정보(상관분석).csv")
+library(psych)
 describe(data_fir)
 pairs.panels(data_fir)
 
