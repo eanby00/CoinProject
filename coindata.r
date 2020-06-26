@@ -422,23 +422,41 @@ par(mfrow = c(1,1))
 
 sample6 = sample4
 sample6 = sample6 %>% filter(학교명 == "명지대" )
-sample6 = sample6 %>% filter(전형 == "종합")
-sample6 = sample6 %>% filter(!is.na(평균점수))
-sample6 = sample6 %>% filter(평균점수 <4.5)
-describeBy(sample6$평균점수, sample6$년도,mat = T)
-plot(sample6$평균점수~ sample6$년도, xlab = "년도", ylab = "평균등급",main = "년도별 평균등급",col = "gray")
+sample6 = sample6 %>% select(년도, 전형,평균점수)
+new = sample6 %>% group_by(년도) %>% summarise(mean = mean(평균점수), last = max(평균점수), first = min(평균점수))
+test = data.frame(년도 = c(2015,2016,2017,2018,2019,2020), 전형 = c("전체","전체","전체","전체","전체","전체"))
+test$년도 = factor(test$년도)
+new = left_join(new, test)
+sample6 = sample6 %>% group_by(년도, 전형) %>% summarise(mean = mean(평균점수), last = max(평균점수), first = min(평균점수))
+str(new)
+str(sample6)
+save = new[,5]
+new[,5] = new[,4]
+new[,4] = new[,3]
+new[,3] = new[,2]
+new[,2] = save
+colnames(new) = c("년도", "전형", "mean", "last", "first")
+qplot(년도, mean, data = sample6, geom = c("point","line"), colour = 전형)
+ggplot(sample6, aes(x = 년도, y = mean, group = 전형)) + geom_line(aes(color = 전형)) + geom_point(aes(color = 전형))
 
 sample6$년도 = as.character(sample6$년도)
 sample6$년도 = as.integer(sample6$년도)
 str(sample6)
 
-shapiro.test(sample6$평균점수[sample6$년도 == 2015])
-shapiro.test(sample6$평균점수[sample6$년도 == 2016])
-shapiro.test(sample6$평균점수[sample6$년도 == 2017])
-shapiro.test(sample6$평균점수[sample6$년도 == 2018])
-shapiro.test(sample6$평균점수[sample6$년도 == 2019])
-shapiro.test(sample6$평균점수[sample6$년도 == 2020])
+교과= sample6 %>% filter(전형 == "교과")
+기회균형= sample6 %>% filter(전형 == "기회균형")
+농어촌= sample6 %>% filter(전형 == "농어촌")
+실기= sample6 %>% filter(전형 == "실기")
+유공자= sample6 %>% filter(전형 == "유공자")
+종교= sample6 %>% filter(전형 == "종교")
+종합= sample6 %>% filter(전형 == "종합")
+특성화 = sample6 %>% filter(전형 == "특성화")
+
+
 cor.test(sample6$평균점수,sample6$년도,method = "kendall")
+lmm = lm(sample6$mean~sample6$년도+sample6$전형)
+summary(lmm)
+# 년도보다는 전형이 등급의 차이를 가져온다는 것을 확인할 수 있음 
 
 plot_sample6 = sample6 %>% group_by(년도) %>% summarise(mean = mean(평균점수),median = median(평균점수))
 gg = ggplot(plot_sample6, aes(x = 년도,y = mean, group = 1))
