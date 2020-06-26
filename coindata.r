@@ -11,6 +11,7 @@ library(stringr)
 library(ggplot2)
 library(gridExtra)
 library(polycor)
+library(tidyr)
 }
 
 # 1 ----------------------------------------------------------------------------------------------------
@@ -443,14 +444,189 @@ sample6$년도 = as.character(sample6$년도)
 sample6$년도 = as.integer(sample6$년도)
 str(sample6)
 
-교과= sample6 %>% filter(전형 == "교과")
-기회균형= sample6 %>% filter(전형 == "기회균형")
+# 교과전형 
+score1= sample6 %>% filter(전형 == "교과")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 기회균형전형
+score2 = sample6 %>% filter(전형 == "기회균형")
+new_score2 = gather(score2, "mean","last","first", key = "method", value = "score")
+ggplot(new_score2, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score2$mean,score1$년도, method = "pearson")
+cor.test(score2$mean,score1$년도, method = "spearman")
+cor.test(score2$mean,score1$년도, method = "kendall")
+# 상관 관계 있음 => kendall의 방식으로 상관계수 0.8666667 
+
+# first
+cor.test(score2$first,score1$년도, method = "pearson")
+cor.test(score2$first,score1$년도, method = "spearman")
+cor.test(score2$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score2$last,score1$년도, method = "pearson")
+cor.test(score2$last,score1$년도, method = "spearman")
+cor.test(score2$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 농어촌전형 # 여기서부터 하기 #_---------------------------------------------------------------------------------------------
 농어촌= sample6 %>% filter(전형 == "농어촌")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 실기전형 
 실기= sample6 %>% filter(전형 == "실기")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 유공자 전형 
 유공자= sample6 %>% filter(전형 == "유공자")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 종교 전형 
 종교= sample6 %>% filter(전형 == "종교")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 종합 전형
 종합= sample6 %>% filter(전형 == "종합")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# 특성화 전형 
 특성화 = sample6 %>% filter(전형 == "특성화")
+new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+
+# mean
+cor.test(score1$mean,score1$년도, method = "pearson")
+cor.test(score1$mean,score1$년도, method = "spearman")
+cor.test(score1$mean,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# first
+cor.test(score1$first,score1$년도, method = "pearson")
+cor.test(score1$first,score1$년도, method = "spearman")
+cor.test(score1$first,score1$년도, method = "kendall")
+# 상관 관계 없음 
+
+# last
+cor.test(score1$last,score1$년도, method = "pearson")
+cor.test(score1$last,score1$년도, method = "spearman")
+cor.test(score1$last,score1$년도, method = "kendall")
+# 상관 관계 없음 
 
 
 cor.test(sample6$평균점수,sample6$년도,method = "kendall")
