@@ -424,21 +424,14 @@ par(mfrow = c(1,1))
 sample6 = sample4
 sample6 = sample6 %>% filter(학교명 == "명지대" )
 sample6 = sample6 %>% select(년도, 전형,평균점수)
-new = sample6 %>% group_by(년도) %>% summarise(mean = mean(평균점수), last = max(평균점수), first = min(평균점수))
-test = data.frame(년도 = c(2015,2016,2017,2018,2019,2020), 전형 = c("전체","전체","전체","전체","전체","전체"))
-test$년도 = factor(test$년도)
-new = left_join(new, test)
+sample6$전형 = factor(sample6$전형)
+plot(sample6$년도,sample6$평균점수, xlab = "년도",ylab = "등급", main = "년도별 등급")
 sample6 = sample6 %>% group_by(년도, 전형) %>% summarise(mean = mean(평균점수), last = max(평균점수), first = min(평균점수))
-str(new)
+
 str(sample6)
-save = new[,5]
-new[,5] = new[,4]
-new[,4] = new[,3]
-new[,3] = new[,2]
-new[,2] = save
-colnames(new) = c("년도", "전형", "mean", "last", "first")
-qplot(년도, mean, data = sample6, geom = c("point","line"), colour = 전형)
-ggplot(sample6, aes(x = 년도, y = mean, group = 전형)) + geom_line(aes(color = 전형)) + geom_point(aes(color = 전형))
+
+ggplot(sample6, aes(x = 년도, y = mean, group = 전형)) + geom_line(aes(color = 전형)) + geom_point(aes(color = 전형)) +
+  ggtitle("전형 기준 년도별 평균 등급")
 
 sample6$년도 = as.character(sample6$년도)
 sample6$년도 = as.integer(sample6$년도)
@@ -451,7 +444,8 @@ summary(lmm)
 # 교과전형 
 score1= sample6 %>% filter(전형 == "교과")
 new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
-ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("교과전형 년도별 등급")
 
 # mean
 cor.test(score1$mean,score1$년도, method = "pearson")
@@ -474,30 +468,32 @@ cor.test(score1$last,score1$년도, method = "kendall")
 # 기회균형전형
 score2 = sample6 %>% filter(전형 == "기회균형")
 new_score2 = gather(score2, "mean","last","first", key = "method", value = "score")
-ggplot(new_score2, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score2, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("기회균형전형 년도별 등급")
 
 # mean
-cor.test(score2$mean,score1$년도, method = "pearson")
-cor.test(score2$mean,score1$년도, method = "spearman")
-cor.test(score2$mean,score1$년도, method = "kendall")
+cor.test(score2$mean,score2$년도, method = "pearson")
+cor.test(score2$mean,score2$년도, method = "spearman")
+cor.test(score2$mean,score2$년도, method = "kendall")
 # 상관 관계 있음 => kendall의 방식으로 상관계수 0.8666667 
 
 # first
-cor.test(score2$first,score1$년도, method = "pearson")
-cor.test(score2$first,score1$년도, method = "spearman")
-cor.test(score2$first,score1$년도, method = "kendall")
+cor.test(score2$first,score2$년도, method = "pearson")
+cor.test(score2$first,score2$년도, method = "spearman")
+cor.test(score2$first,score2$년도, method = "kendall")
 # 상관 관계 없음 
 
 # last
-cor.test(score2$last,score1$년도, method = "pearson")
-cor.test(score2$last,score1$년도, method = "spearman")
-cor.test(score2$last,score1$년도, method = "kendall")
+cor.test(score2$last,score2$년도, method = "pearson")
+cor.test(score2$last,score2$년도, method = "spearman")
+cor.test(score2$last,score2$년도, method = "kendall")
 # 상관 관계 없음 
 
 # 농어촌전형 # 여기서부터 하기
 score3= sample6 %>% filter(전형 == "농어촌")
 new_score3 = gather(score3, "mean","last","first", key = "method", value = "score")
-ggplot(new_score3, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score3, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("농어촌전형 년도별 등급")
 
 # mean
 cor.test(score3$mean,score3$년도, method = "pearson")
@@ -520,7 +516,8 @@ cor.test(score3$last,score3$년도, method = "kendall")
 # 실기전형 
 score4= sample6 %>% filter(전형 == "실기")
 new_score4 = gather(score4, "mean","last","first", key = "method", value = "score")
-ggplot(new_score4, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score4, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("실기전형 년도별 등급")
 
 # mean
 cor.test(score4$mean,score4$년도, method = "pearson")
@@ -540,10 +537,11 @@ cor.test(score4$last,score4$년도, method = "spearman")
 cor.test(score4$last,score4$년도, method = "kendall")
 # 상관 관계 없음 
 
-# 유공자 전형 
+# 유공자전형 
 score5= sample6 %>% filter(전형 == "유공자")
 new_score5 = gather(score5, "mean","last","first", key = "method", value = "score")
-ggplot(new_score5, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score5, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("유공자전형 년도별 등급")
 
 # mean
 cor.test(score5$mean,score5$년도, method = "pearson")
@@ -563,10 +561,11 @@ cor.test(score5$last,score5$년도, method = "spearman")
 cor.test(score5$last,score5$년도, method = "kendall")
 # 상관 관계 없음 
 
-# 종교 전형 
+# 종교전형 
 score6= sample6 %>% filter(전형 == "종교")
 new_score6 = gather(score6, "mean","last","first", key = "method", value = "score")
-ggplot(new_score6, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score6, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("종교전형 년도별 등급")
 
 # mean
 cor.test(score6$mean,score6$년도, method = "pearson")
@@ -586,10 +585,11 @@ cor.test(score6$last,score6$년도, method = "spearman")
 cor.test(score6$last,score6$년도, method = "kendall")
 # 상관 관계 없음 
 
-# 종합 전형
+# 종합전형
 score7= sample6 %>% filter(전형 == "종합")
 new_score7 = gather(score7, "mean","last","first", key = "method", value = "score")
-ggplot(new_score7, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score7, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("종합전형 년도별 등급")
 
 # mean
 cor.test(score7$mean,score7$년도, method = "pearson")
@@ -609,10 +609,11 @@ cor.test(score7$last,score7$년도, method = "spearman")
 cor.test(score7$last,score7$년도, method = "kendall")
 # 상관 관계 있음 => pearson 방식이 0.8913516의 상관 계수를 가짐 
 
-# 특성화 전형 
+# 특성화전형 
 score8 = sample6 %>% filter(전형 == "특성화")
 new_score8 = gather(score8, "mean","last","first", key = "method", value = "score")
-ggplot(new_score8, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+ggplot(new_score8, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("특성화전형 년도별 등급")
 
 # mean
 cor.test(score8$mean,score8$년도, method = "pearson")
