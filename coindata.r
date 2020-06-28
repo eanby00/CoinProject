@@ -444,6 +444,10 @@ sample6$년도 = as.character(sample6$년도)
 sample6$년도 = as.integer(sample6$년도)
 str(sample6)
 
+lmm = lm(sample6$mean~sample6$년도+sample6$전형)
+summary(lmm)
+# 년도보다는 전형이 등급의 차이를 가져온다는 것을 확인할 수 있음 
+
 # 교과전형 
 score1= sample6 %>% filter(전형 == "교과")
 new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
@@ -606,63 +610,27 @@ cor.test(score7$last,score7$년도, method = "kendall")
 # 상관 관계 있음 => pearson 방식이 0.8913516의 상관 계수를 가짐 
 
 # 특성화 전형 
-특성화 = sample6 %>% filter(전형 == "특성화")
-new_score1 = gather(score1, "mean","last","first", key = "method", value = "score")
-ggplot(new_score1, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
+score8 = sample6 %>% filter(전형 == "특성화")
+new_score8 = gather(score8, "mean","last","first", key = "method", value = "score")
+ggplot(new_score8, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))
 
 # mean
-cor.test(score1$mean,score1$년도, method = "pearson")
-cor.test(score1$mean,score1$년도, method = "spearman")
-cor.test(score1$mean,score1$년도, method = "kendall")
-# 상관 관계 없음 
+cor.test(score8$mean,score8$년도, method = "pearson")
+cor.test(score8$mean,score8$년도, method = "spearman")
+cor.test(score8$mean,score8$년도, method = "kendall")
+# 상관 관계 있음 pearson 방식이 0.82526의 상관계수를 가짐 
 
 # first
-cor.test(score1$first,score1$년도, method = "pearson")
-cor.test(score1$first,score1$년도, method = "spearman")
-cor.test(score1$first,score1$년도, method = "kendall")
-# 상관 관계 없음 
+cor.test(score8$first,score8$년도, method = "pearson")
+cor.test(score8$first,score8$년도, method = "spearman")
+cor.test(score8$first,score8$년도, method = "kendall")
+# 상관 관계 있음 kendall 방식이 0.8280787의 상관계수를 가짐  
 
 # last
-cor.test(score1$last,score1$년도, method = "pearson")
-cor.test(score1$last,score1$년도, method = "spearman")
-cor.test(score1$last,score1$년도, method = "kendall")
-# 상관 관계 없음 
+cor.test(score8$last,score8$년도, method = "pearson")
+cor.test(score8$last,score8$년도, method = "spearman")
+cor.test(score8$last,score8$년도, method = "kendall")
+# 상관 관계 있음 kendall 방식이 0.8666667의 상관계수를 가짐  
 
 
-cor.test(sample6$평균점수,sample6$년도,method = "kendall")
-lmm = lm(sample6$mean~sample6$년도+sample6$전형)
-summary(lmm)
-# 년도보다는 전형이 등급의 차이를 가져온다는 것을 확인할 수 있음 
-
-plot_sample6 = sample6 %>% group_by(년도) %>% summarise(mean = mean(평균점수),median = median(평균점수))
-gg = ggplot(plot_sample6, aes(x = 년도,y = mean, group = 1))
-gg+geom_line(color = "blue")+geom_line(aes(x = 년도,y = median, color = "red", group = 2))+labs(x = "년도",y = "평균 등급",title = "종합전형 년도별 평균등급")+
-  theme(legend.position = "none")
-
-
-sample6 = sample4
-sample6 = sample6 %>% filter(학교명 == "명지대" )
-sample6 = sample6 %>% filter(전형 == "교과")
-sample6 = sample6 %>% filter(!is.na(평균점수))
-sample6 = sample6 %>% filter(평균점수 <4.5)
-describeBy(sample6$평균점수, sample6$년도,mat = T)
-plot(sample6$평균점수~ sample6$년도, xlab = "년도", ylab = "평균등급",main = "년도별 평균등급",col = "gray")
-
-sample6$년도 = as.character(sample6$년도)
-sample6$년도 = as.integer(sample6$년도)
-str(sample6)
-
-shapiro.test(sample6$평균점수[sample6$년도 == 2015])
-shapiro.test(sample6$평균점수[sample6$년도 == 2016])
-shapiro.test(sample6$평균점수[sample6$년도 == 2017])
-shapiro.test(sample6$평균점수[sample6$년도 == 2018])
-shapiro.test(sample6$평균점수[sample6$년도 == 2019])
-shapiro.test(sample6$평균점수[sample6$년도 == 2020])
-
-cor.test(sample6$평균점수,sample6$년도,method = "kendall")
-
-plot_sample6 = sample6 %>% group_by(년도) %>% summarise(mean = mean(평균점수),median = median(평균점수))
-gg = ggplot(plot_sample6, aes(x = 년도,y = mean, group = 1))
-gg+geom_line(color = "blue")+geom_line(aes(x = 년도,y = median, color = "red", group = 2))+labs(x = "년도",y = "평균 등급",title = "교과전형 년도별 평균등급")+
-  theme(legend.position = "none")
 
