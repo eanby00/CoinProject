@@ -633,5 +633,50 @@ cor.test(score8$last,score8$년도, method = "spearman")
 cor.test(score8$last,score8$년도, method = "kendall")
 # 상관 관계 있음 kendall 방식이 0.8666667의 상관계수를 가짐  
 
+# 기회균형 전형 평균
+data1 = sample6 %>% filter(전형 == "기회균형") %>% select(년도, mean)
+model1 = lm(mean~년도, data = data1)
+summary(model1)
+predict(model1, newdata = data.frame(년도 = 2021)) # 4.52467
+data_new1 = data.frame(년도 = 2021, mean = predict(model1, newdata = data.frame(년도 = 2021)))
+data1 = bind_rows(data1, data_new1)
+str(data1)
+ggplot(data1, aes(x = 년도, y = mean)) + geom_line(col = "blue") + ggtitle("기회균형전형")
 
+# 종교 전형 평균 
+data2 = sample6 %>% filter(전형 == "종교") %>% select(년도, mean)
+model2 = lm(mean~년도, data = data2)
+summary(model2)
+predict(model2, newdata = data.frame(년도 = 2021)) # 4.040438
+data_new2 = data.frame(년도 = 2021, mean = predict(model2, newdata = data.frame(년도 = 2021)))
+data2 = bind_rows(data2, data_new2)
+str(data2)
+ggplot(data2, aes(x = 년도, y = mean)) + geom_line(col = "blue") + ggtitle("종교전형")
+
+# 종합 전형 최저
+data3 = sample6 %>% filter(전형 == "종합") %>% select(년도, last)
+model3 = lm(last~년도, data = data3)
+summary(model3)
+predict(model3, newdata = data.frame(년도 = 2021)) # 5.419333
+data_new3 = data.frame(년도 = 2021, last = predict(model3, newdata = data.frame(년도 = 2021)))
+data3 = bind_rows(data3, data_new3)
+str(data3)
+ggplot(data3, aes(x = 년도, y = last)) + geom_line(col = "blue") + ggtitle("종합전형")
+
+
+# 특성화 모두 
+data4 = sample6 %>% filter(전형 == "특성화")
+model4_mean = lm(mean~년도, data = data4)
+model4_last = lm(last~년도, data = data4)
+model4_first = lm(first~년도, data = data4)
+summary(model4_mean)
+summary(model4_last)
+summary(model4_first)
+predict(model4_mean, newdata = data.frame(년도 = 2021)) # 5.419333
+predict(model4_last, newdata = data.frame(년도 = 2021)) # 5.419333
+predict(model4_first, newdata = data.frame(년도 = 2021)) # 5.419333
+data_new3 = data.frame(년도 = 2021, last = predict(model3, newdata = data.frame(년도 = 2021)))
+data3 = bind_rows(data3, data_new3)
+str(data3)
+ggplot(data3, aes(x = 년도, y = last)) + geom_line(col = "blue") + ggtitle("종합전형")
 
