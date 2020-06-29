@@ -672,11 +672,14 @@ model4_first = lm(first~년도, data = data4)
 summary(model4_mean)
 summary(model4_last)
 summary(model4_first)
-predict(model4_mean, newdata = data.frame(년도 = 2021)) # 5.419333
-predict(model4_last, newdata = data.frame(년도 = 2021)) # 5.419333
-predict(model4_first, newdata = data.frame(년도 = 2021)) # 5.419333
-data_new3 = data.frame(년도 = 2021, last = predict(model3, newdata = data.frame(년도 = 2021)))
-data3 = bind_rows(data3, data_new3)
-str(data3)
-ggplot(data3, aes(x = 년도, y = last)) + geom_line(col = "blue") + ggtitle("종합전형")
-
+predict(model4_mean, newdata = data.frame(년도 = 2021)) # 2.86405 
+predict(model4_last, newdata = data.frame(년도 = 2021)) # 5.164667 
+predict(model4_first, newdata = data.frame(년도 = 2021)) # 2.473333
+data_new4 = data.frame(년도 = 2021, mean = predict(model4_mean, newdata = data.frame(년도 = 2021)),
+                         last = predict(model4_last, newdata = data.frame(년도 = 2021))
+                         , first = predict(model4_first, newdata = data.frame(년도 = 2021)))
+data4 = bind_rows(data4, data_new4)
+str(data4)
+new_data4 = gather(data4, "mean","last","first", key = "method", value = "score")
+ggplot(new_data4, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
+  ggtitle("특성화전형")
