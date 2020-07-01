@@ -567,7 +567,7 @@ new_score6 = gather(score6, "mean","last","first", key = "method", value = "scor
 ggplot(new_score6, aes(x = 년도, y = score, group = method)) + geom_line(aes(color = method)) + geom_point(aes(color = method))+
   ggtitle("종교전형 년도별 등급")
 
-# mean
+#mean
 cor.test(score6$mean,score6$년도, method = "pearson")
 cor.test(score6$mean,score6$년도, method = "spearman")
 cor.test(score6$mean,score6$년도, method = "kendall")
